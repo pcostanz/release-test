@@ -26,14 +26,6 @@ inputs:
   github-token:
     description: "GitHub token for API access"
     required: true
-  service-name:
-    description: "Human-readable service name for release notes"
-    required: false
-    default: "Main Service"
-  service-specific-info:
-    description: "Additional service-specific deployment information"
-    required: false
-    default: ""
 outputs:
   release-id:
     description: "ID of the created/updated release"
@@ -58,5 +50,3 @@ runs:
         header: "Commit: ${{ inputs.commit-sha }}"
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
-        SERVICE_NAME: ${{ inputs.service-name }}
-        SERVICE_SPECIFIC_INFO: ${{ inputs.service-specific-info }}
