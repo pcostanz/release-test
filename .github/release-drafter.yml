@@ -1,5 +1,6 @@
-name-template: "Release $RESOLVED_VERSION 🌟"
-tag-template: "$RESOLVED_VERSION"
+name-template: "Release $COMMIT_SHA 🌟"
+tag-template: "$COMMIT_SHA"
+version-template: "$COMMIT_SHA"
 categories:
   - title: "🚀 Features"
     labels:
@@ -42,36 +43,36 @@ change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add
 template: |
   ## Changes
 
-  ${{#if changes}}
+  {{#if changes}}
   $CHANGES
-  ${{else}}
+  {{else}}
   * No changes
-  ${{/if}}
+  {{/if}}
 
   ## Services Affected
-  ${{#each releases}}
-    ${{#if @FIRST}}
-      ${{#each commits}}
-        ${{#if (contains (join (pluck 'labels' 'name') ',') 'api')}}
+  {{#each releases}}
+    {{#if @first}}
+      {{#each commits}}
+        {{#if (contains (join (pluck 'labels' 'name') ',') 'api')}}
   - **API**: Changes detected in backend services
-        ${{/if}}
-        ${{#if (contains (join (pluck 'labels' 'name') ',') 'frontend')}}
+        {{/if}}
+        {{#if (contains (join (pluck 'labels' 'name') ',') 'frontend')}}
   - **Frontend**: Changes detected in UI components and user interface
-        ${{/if}}
-        ${{#if (contains (join (pluck 'labels' 'name') ',') 'infrastructure')}}
+        {{/if}}
+        {{#if (contains (join (pluck 'labels' 'name') ',') 'infrastructure')}}
   - **Infrastructure**: Changes detected in deployment and configuration
-        ${{/if}}
-      ${{/each}}
-    ${{/if}}
-  ${{/each}}
+        {{/if}}
+      {{/each}}
+    {{/if}}
+  {{/each}}
 
   ## Production Deployment
   - This release will automatically deploy **API + UI** to **production** (if changes detected)
   - Only API/frontend changes since the last release will trigger deployment
-  - Deployed with version tag: `$RESOLVED_VERSION`
+  - Deployed with version tag: `$COMMIT_SHA`
   - Stage environment already has these changes (deployed on merge to main)
   - Other services (pipeline, cronjobs, communications) remain manual deployment
 
   ## Release Information
-  - **Version**: `$RESOLVED_VERSION` (automatically set to git hash)
+  - **Version**: `$COMMIT_SHA` (automatically set to git hash)
   - **Commit**: $COMMIT_SHA
