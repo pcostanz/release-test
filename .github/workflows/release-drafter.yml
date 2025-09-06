@@ -30,13 +30,11 @@ jobs:
       - name: Set version
         id: set-version
         uses: ./.github/actions/set-version
-        with:
-          event-name: ${{ github.event_name }}
 
       - name: Run Release Drafter
         uses: ./.github/actions/release-drafter
         with:
-          service: "main"
+          service: "api-ui"
           config-name: "release-drafter-main.yml"
           version: ${{ steps.set-version.outputs.version }}
           commit-sha: ${{ steps.set-version.outputs.commit-sha }}

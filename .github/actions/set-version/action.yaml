@@ -4,14 +4,10 @@ inputs:
   service:
     description: "Service name for service-specific versioning"
     required: false
-    default: "main"
-  event-name:
-    description: "GitHub event name (push, pull_request, etc.)"
-    required: false
-    default: "push"
+    default: "api-ui"
 outputs:
   version:
-    description: "The date-based version (YYYY.MM.DD.N)"
+    description: "The date-based version (YY.MM.DD.N/service)"
     value: ${{ steps.set-version.outputs.version }}
   commit-sha:
     description: "The commit SHA for this context"
@@ -22,50 +18,29 @@ runs:
     - shell: bash
       id: set-version
       run: |
-        # Get current date in YYYY.MM.DD format
-        DATE=$(date +%Y.%m.%d)
+        # Get current date in YY.MM.DD format (removed 20 prefix)
+        DATE=$(date +%y.%m.%d)
         SERVICE="${{ inputs.service }}"
 
-        # Get commit SHA based on event context
-        if [ "${{ inputs.event-name }}" = "pull_request" ]; then
-          COMMIT_SHA="${{ github.event.pull_request.head.sha }}"
-        else
-          COMMIT_SHA="${{ github.sha }}"
-        fi
+        # Get commit SHA (only for main branch pushes, no PR handling)
+        COMMIT_SHA="${{ github.sha }}"
 
-        # Get the latest release for today for this service to determine increment
-        if [ "$SERVICE" = "main" ]; then
-          LATEST_TAG=$(git tag -l "api-ui-$DATE.*" | sort -V | tail -1 || echo "")
-        else
-          LATEST_TAG=$(git tag -l "$SERVICE-$DATE.*" | sort -V | tail -1 || echo "")
-        fi
+        # Get the latest release for today (global increment, not service-specific)
+        # Look for any tag matching the date pattern: YY.MM.DD.N/service
+        LATEST_TAG=$(git tag -l "$DATE.*" | sort -V | tail -1 || echo "")
 
         if [ -z "$LATEST_TAG" ]; then
-          # No releases today for this service, start with .1
-          if [ "$SERVICE" = "main" ]; then
-            VERSION="api-ui-$DATE.1"
-          else
-            VERSION="$SERVICE-$DATE.1"
-          fi
+          # No releases today, start with .1
+          VERSION="$DATE.1/$SERVICE"
         else
           # Extract the increment number and add 1
-          if [ "$SERVICE" = "main" ]; then
-            INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4)
-            if [ -z "$INCREMENT" ]; then
-              VERSION="api-ui-$DATE.1"
-            else
-              NEW_INCREMENT=$((INCREMENT + 1))
-              VERSION="api-ui-$DATE.$NEW_INCREMENT"
-            fi
+          # Format: YY.MM.DD.N/service -> extract N
+          INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4 | cut -d'/' -f1)
+          if [ -z "$INCREMENT" ]; then
+            VERSION="$DATE.1/$SERVICE"
           else
-            # For non-main services, extract from service-prefixed tag
-            INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4)
-            if [ -z "$INCREMENT" ]; then
-              VERSION="$SERVICE-$DATE.1"
-            else
-              NEW_INCREMENT=$((INCREMENT + 1))
-              VERSION="$SERVICE-$DATE.$NEW_INCREMENT"
-            fi
+            NEW_INCREMENT=$((INCREMENT + 1))
+            VERSION="$DATE.$NEW_INCREMENT/$SERVICE"
           fi
         fi
 
