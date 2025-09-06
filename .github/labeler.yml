@@ -3,33 +3,33 @@
 
 # API/Backend changes
 api:
-  - src/api/**
-  - libs/backend/**
+  - "src/api/**"
+  - "libs/backend/**"
 
-# Frontend changes  
+# Frontend changes
 frontend:
-  - src/frontend/**
-  - components/**
+  - "src/frontend/**"
+  - "components/**"
 
 # Infrastructure/DevOps
 infrastructure:
-  - .github/**
-  - docker-compose*.yml
-  - Makefile
+  - ".github/**"
+  - "docker-compose*.yml"
+  - "Makefile"
 
 # Testing
 testing:
-  - tests/**
-  - **/*test*.js
-  - **/*test*.ts
+  - "tests/**"
+  - "**/*test*.js"
+  - "**/*test*.ts"
 
 # Documentation
 documentation:
-  - docs/**
-  - README.md
-  - **/*.md
+  - "docs/**"
+  - "README.md"
+  - "**/*.md"
 
 # Dependencies
 dependencies:
-  - package.json
-  - requirements*.txt
+  - "package.json"
+  - "requirements*.txt"
