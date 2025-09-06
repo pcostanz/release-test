@@ -6,10 +6,6 @@ on:
       - main
     paths:
       - "src/analytics/**"
-  pull_request:
-    types: [opened, reopened, synchronize]
-    paths:
-      - "src/analytics/**"
 
 permissions:
   contents: write
