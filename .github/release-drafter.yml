@@ -1,6 +1,6 @@
-name-template: "Release $COMMIT_SHA 🌟"
-tag-template: "$COMMIT_SHA"
-version-template: "$COMMIT_SHA"
+name-template: "Release $RESOLVED_VERSION 🌟"
+tag-template: "$RESOLVED_VERSION"
+version-template: "$RESOLVED_VERSION"
 categories:
   - title: "🚀 Features"
     labels:
@@ -69,10 +69,10 @@ template: |
   ## Production Deployment
   - This release will automatically deploy **API + UI** to **production** (if changes detected)
   - Only API/frontend changes since the last release will trigger deployment
-  - Deployed with version tag: `$COMMIT_SHA`
+  - Deployed with version tag: `$RESOLVED_VERSION`
   - Stage environment already has these changes (deployed on merge to main)
   - Other services (pipeline, cronjobs, communications) remain manual deployment
 
   ## Release Information
-  - **Version**: `$COMMIT_SHA` (automatically set to git hash)
+  - **Version**: `$RESOLVED_VERSION` (automatically set to git hash)
   - **Commit**: $COMMIT_SHA
