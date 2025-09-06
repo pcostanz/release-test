@@ -1,5 +1,9 @@
 name: "Analytics Service Release"
 
+concurrency:
+  group: release-drafter-analytics-${{ github.ref }}
+  cancel-in-progress: false
+
 on:
   push:
     branches:
