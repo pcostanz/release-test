@@ -26,6 +26,8 @@ jobs:
       - name: Set version
         id: set-version
         uses: ./.github/actions/set-version
+        with:
+          event-name: ${{ github.event_name }}
 
       - name: Run Release Drafter
         uses: release-drafter/release-drafter@v6
