@@ -23,6 +23,9 @@ inputs:
     description: "Prefix for the tag (empty for main service, 'analytics-' for analytics, etc.)"
     required: false
     default: ""
+  github-token:
+    description: "GitHub token for API access"
+    required: true
 outputs:
   release-id:
     description: "ID of the created/updated release"
@@ -46,4 +49,4 @@ runs:
         tag: "${{ inputs.tag-prefix }}${{ inputs.version }}"
         header: "Commit: ${{ inputs.commit-sha }}"
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}

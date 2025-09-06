@@ -37,3 +37,4 @@ jobs:
           name-prefix: "Analytics Release"
           name-emoji: "📊"
           tag-prefix: "analytics-"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
