@@ -43,28 +43,7 @@ change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add
 template: |
   ## Changes
 
-  {{#if changes}}
   $CHANGES
-  {{else}}
-  * No changes
-  {{/if}}
-
-  ## Services Affected
-  {{#each releases}}
-    {{#if @first}}
-      {{#each commits}}
-        {{#if (contains (join (pluck 'labels' 'name') ',') 'api')}}
-  - **API**: Changes detected in backend services
-        {{/if}}
-        {{#if (contains (join (pluck 'labels' 'name') ',') 'frontend')}}
-  - **Frontend**: Changes detected in UI components and user interface
-        {{/if}}
-        {{#if (contains (join (pluck 'labels' 'name') ',') 'infrastructure')}}
-  - **Infrastructure**: Changes detected in deployment and configuration
-        {{/if}}
-      {{/each}}
-    {{/if}}
-  {{/each}}
 
   ## Production Deployment
   - This release will automatically deploy **API + UI** to **production** (if changes detected)
