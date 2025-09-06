@@ -1,8 +1,8 @@
 name: "Set Version"
-description: "Sets a version hash based on the current git context"
+description: "Sets a date-based version with increment for multiple releases per day"
 outputs:
   version:
-    description: "The short git hash for the current context"
+    description: "The date-based version (YYYY.MM.DD.N)"
     value: ${{ steps.set-version.outputs.version }}
 runs:
   using: "composite"
@@ -10,13 +10,21 @@ runs:
     - shell: bash
       id: set-version
       run: |
-        if [ "${{ github.event_name }}" = "pull_request" ]; then
-          VERSION=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})
-        elif [ -n "${{ github.event.merge_group.head_sha }}" ]; then
-          # Handle merge queue case
-          VERSION=$(git rev-parse --short ${{ github.event.merge_group.head_sha }})
+        # Get current date in YYYY.MM.DD format
+        DATE=$(date +%Y.%m.%d)
+
+        # Get the latest release for today to determine increment
+        LATEST_TAG=$(git tag -l "$DATE.*" | sort -V | tail -1)
+
+        if [ -z "$LATEST_TAG" ]; then
+          # No releases today, start with .1
+          VERSION="$DATE.1"
         else
-          VERSION=$(git rev-parse --short HEAD)
+          # Extract the increment number and add 1
+          INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4)
+          NEW_INCREMENT=$((INCREMENT + 1))
+          VERSION="$DATE.$NEW_INCREMENT"
         fi
+
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "Set version to: $VERSION"
