@@ -1,0 +1,22 @@
+name: "Set Version"
+description: "Sets a version hash based on the current git context"
+outputs:
+  version:
+    description: "The short git hash for the current context"
+    value: ${{ steps.set-version.outputs.version }}
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      id: set-version
+      run: |
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          VERSION=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})
+        elif [ -n "${{ github.event.merge_group.head_sha }}" ]; then
+          # Handle merge queue case
+          VERSION=$(git rev-parse --short ${{ github.event.merge_group.head_sha }})
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Set version to: $VERSION"

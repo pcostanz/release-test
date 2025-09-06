@@ -1,0 +1,73 @@
+name-template: "Release $RESOLVED_VERSION 🌟"
+tag-template: "$RESOLVED_VERSION"
+categories:
+  - title: "🚀 Features"
+    labels:
+      - "feature"
+      - "enhancement"
+  - title: "🐛 Bug Fixes"
+    labels:
+      - "fix"
+      - "bugfix"
+      - "bug"
+  - title: "🧰 Maintenance"
+    labels:
+      - "chore"
+      - "dependencies"
+      - "maintenance"
+  - title: "📚 Documentation"
+    labels:
+      - "documentation"
+      - "docs"
+  - title: "🧪 Testing"
+    labels:
+      - "testing"
+      - "tests"
+  - title: "🏗️ Infrastructure"
+    labels:
+      - "infrastructure"
+      - "devops"
+      - "ci/cd"
+  - title: "🎨 Frontend"
+    labels:
+      - "frontend"
+      - "ui"
+      - "ux"
+  - title: "⚙️ Backend"
+    labels:
+      - "api"
+      - "backend"
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+template: |
+  ## Changes
+
+  $CHANGES
+
+  ## Services Affected
+  ${{#each releases}}
+    ${{#if @first}}
+      ${{#each commits}}
+        ${{#if (contains (join (pluck 'labels' 'name') ',') 'api')}}
+  - **API**: Changes detected in backend services
+        ${{/if}}
+        ${{#if (contains (join (pluck 'labels' 'name') ',') 'frontend')}}
+  - **Frontend**: Changes detected in UI components and user interface
+        ${{/if}}
+        ${{#if (contains (join (pluck 'labels' 'name') ',') 'infrastructure')}}
+  - **Infrastructure**: Changes detected in deployment and configuration
+        ${{/if}}
+      ${{/each}}
+    ${{/if}}
+  ${{/each}}
+
+  ## Production Deployment
+  - This release will automatically deploy **API + UI** to **production** (if changes detected)
+  - Only API/frontend changes since the last release will trigger deployment
+  - Deployed with version tag: `$RESOLVED_VERSION`
+  - Stage environment already has these changes (deployed on merge to main)
+  - Other services (pipeline, cronjobs, communications) remain manual deployment
+
+  ## Release Information
+  - **Version**: `$RESOLVED_VERSION` (automatically set to git hash)
+  - **Commit**: $COMMIT_SHA

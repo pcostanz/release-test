@@ -1,0 +1,16 @@
+{
+  "name": "release-workflow-demo",
+  "version": "1.0.0",
+  "description": "Demo repository for testing automated release workflows",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": [
+    "github-actions",
+    "release-drafter",
+    "automation"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

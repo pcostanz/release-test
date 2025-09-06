@@ -1,0 +1,35 @@
+# Labeler configuration for automatic PR labeling
+# Based on file paths to categorize changes
+
+# API/Backend changes
+api:
+  - src/api/**
+  - libs/backend/**
+
+# Frontend changes  
+frontend:
+  - src/frontend/**
+  - components/**
+
+# Infrastructure/DevOps
+infrastructure:
+  - .github/**
+  - docker-compose*.yml
+  - Makefile
+
+# Testing
+testing:
+  - tests/**
+  - **/*test*.js
+  - **/*test*.ts
+
+# Documentation
+documentation:
+  - docs/**
+  - README.md
+  - **/*.md
+
+# Dependencies
+dependencies:
+  - package.json
+  - requirements*.txt
