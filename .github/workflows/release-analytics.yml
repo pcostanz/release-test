@@ -54,14 +54,10 @@ jobs:
 
       - name: Run Analytics Release Drafter
         id: release-drafter
-        uses: ./.github/actions/release-drafter
+        uses: ./.github/actions/release-drafter-analytics
         with:
-          service: "analytics"
-          config-name: "release-drafter-analytics.yml"
           version: ${{ steps.set-analytics-version.outputs.version }}
           commit-sha: ${{ steps.set-analytics-version.outputs.commit-sha }}
-          name-prefix: "Analytics Release"
-          name-emoji: "📊"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Debug - Release Drafter Results

@@ -1,0 +1,36 @@
+name: "API/UI Release Drafter"
+description: "Creates or updates API/UI service release draft using release-drafter"
+inputs:
+  version:
+    description: "Version for the release"
+    required: true
+  commit-sha:
+    description: "Commit SHA for the release"
+    required: true
+  github-token:
+    description: "GitHub token for API access"
+    required: true
+outputs:
+  release-id:
+    description: "ID of the created/updated release"
+    value: ${{ steps.release-drafter.outputs.id }}
+  release-name:
+    description: "Name of the release"
+    value: ${{ steps.release-drafter.outputs.name }}
+  release-tag:
+    description: "Tag of the release"
+    value: ${{ steps.release-drafter.outputs.tag_name }}
+runs:
+  using: "composite"
+  steps:
+    - name: Run API/UI Release Drafter
+      id: release-drafter
+      uses: release-drafter/release-drafter@v6
+      with:
+        config-name: "release-drafter-main.yml"
+        version: ${{ inputs.version }}
+        name: "API/UI Release ${{ inputs.version }} 🌟"
+        tag: "${{ inputs.version }}/api-ui"
+        header: "Commit: ${{ inputs.commit-sha }}"
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}

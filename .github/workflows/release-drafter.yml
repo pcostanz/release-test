@@ -53,16 +53,12 @@ jobs:
           echo "Expected Tag: ${{ steps.set-version.outputs.version }}/api-ui"
           echo "============================"
 
-      - name: Run Release Drafter
+      - name: Run API/UI Release Drafter
         id: release-drafter
-        uses: ./.github/actions/release-drafter
+        uses: ./.github/actions/release-drafter-api-ui
         with:
-          service: "api-ui"
-          config-name: "release-drafter-main.yml"
           version: ${{ steps.set-version.outputs.version }}
           commit-sha: ${{ steps.set-version.outputs.commit-sha }}
-          name-prefix: "API/UI Release"
-          name-emoji: "🌟"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Debug - Release Drafter Results
