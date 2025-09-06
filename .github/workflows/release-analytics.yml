@@ -36,5 +36,4 @@ jobs:
           commit-sha: ${{ steps.set-analytics-version.outputs.commit-sha }}
           name-prefix: "Analytics Release"
           name-emoji: "📊"
-          tag-prefix: "analytics-"
           github-token: ${{ secrets.GITHUB_TOKEN }}

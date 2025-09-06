@@ -36,7 +36,6 @@ jobs:
           config-name: "release-drafter-main.yml"
           version: ${{ steps.set-version.outputs.version }}
           commit-sha: ${{ steps.set-version.outputs.commit-sha }}
-          name-prefix: "Release"
+          name-prefix: "API/UI Release"
           name-emoji: "🌟"
-          tag-prefix: ""
           github-token: ${{ secrets.GITHUB_TOKEN }}

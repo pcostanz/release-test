@@ -19,10 +19,6 @@ inputs:
   name-emoji:
     description: "Emoji for the release name"
     required: true
-  tag-prefix:
-    description: "Prefix for the tag (empty for main service, 'analytics-' for analytics, etc.)"
-    required: false
-    default: ""
   github-token:
     description: "GitHub token for API access"
     required: true
@@ -46,7 +42,7 @@ runs:
         config-name: ${{ inputs.config-name }}
         version: ${{ inputs.version }}
         name: "${{ inputs.name-prefix }} ${{ inputs.version }} ${{ inputs.name-emoji }}"
-        tag: "${{ inputs.tag-prefix }}${{ inputs.version }}"
+        tag: "${{ inputs.version }}"
         header: "Commit: ${{ inputs.commit-sha }}"
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
