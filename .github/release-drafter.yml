@@ -47,10 +47,10 @@ template: |
 
   ## Production Deployment
   - This release will automatically deploy **API + UI** to **production** (if changes detected)
-  - Only API/frontend changes since the last release will trigger deployment
+  - API and UI always deploy together as a unified service
   - Deployed with version tag: `"$RESOLVED_VERSION"`
   - Stage environment already has these changes (deployed on merge to main)
-  - Other services (pipeline, cronjobs, communications) remain manual deployment
+  - Other services (analytics, notifications, etc.) remain independent deployment
 
   ## Release Information
   - **Version**: `"$RESOLVED_VERSION"` (date-based versioning)

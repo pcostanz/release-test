@@ -1,0 +1,41 @@
+name: "Analytics Service Release"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/analytics/**"
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - "src/analytics/**"
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  update_analytics_release_draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set Analytics version
+        id: set-analytics-version
+        uses: ./.github/actions/set-version
+        with:
+          service: "analytics"
+
+      - name: Run Analytics Release Drafter
+        uses: release-drafter/release-drafter@v6
+        with:
+          config-name: release-drafter-analytics.yml
+          version: ${{ steps.set-analytics-version.outputs.version }}
+          name: "Analytics Release ${{ steps.set-analytics-version.outputs.version }} 📊"
+          tag: "analytics-${{ steps.set-analytics-version.outputs.version }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

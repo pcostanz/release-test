@@ -3,7 +3,8 @@ name: "Release Deployment"
 on:
   push:
     tags:
-      - "*"
+      - "2025.*" # Main service tags (API + UI)
+      - "analytics-*" # Analytics service tags
 
 permissions:
   id-token: write
@@ -11,46 +12,12 @@ permissions:
   actions: read
 
 jobs:
-  # Check if API changes are included in this release
-  check-api-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      deploy-api: ${{ steps.check-api.outputs.deploy-api }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Check if API changes are included
-        id: check-api
-        run: |
-          # Get the previous tag
-          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
-
-          if [ -z "$PREVIOUS_TAG" ]; then
-            echo "No previous tag found, deploying API"
-            echo "deploy-api=true" >> $GITHUB_OUTPUT
-          else
-            echo "Checking API changes since $PREVIOUS_TAG"
-            
-            # Check for API changes
-            if git diff --name-only $PREVIOUS_TAG..HEAD | grep -E "(src/api/|libs/backend/|src/frontend/|components/)" > /dev/null; then
-              echo "deploy-api=true" >> $GITHUB_OUTPUT
-            else
-              echo "deploy-api=false" >> $GITHUB_OUTPUT
-            fi
-          fi
-
-          echo "API deployment: ${{ steps.check-api.outputs.deploy-api }}"
-
-  # Simulate API deployment (just log for testing)
-  deploy-api:
-    if: ${{ needs.check-api-changes.outputs.deploy-api == 'true' }}
-    needs: check-api-changes
+  # Deploy main service (API + UI)
+  deploy-main-service:
+    if: startsWith(github.ref_name, '2025.')
     runs-on: ubuntu-latest
     steps:
-      - name: Simulate API Deployment
+      - name: Simulate Main Service Deployment
         run: |
           echo "🚀 DEPLOYING API + UI TO PRODUCTION"
           echo "=================================="
@@ -59,11 +26,27 @@ jobs:
           echo "Environment: production"
           echo "Timestamp: $(date)"
           echo "=================================="
-          echo "✅ Deployment simulation completed successfully!"
+          echo "✅ Main service deployment completed successfully!"
+
+  # Deploy analytics service
+  deploy-analytics-service:
+    if: startsWith(github.ref_name, 'analytics-')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulate Analytics Service Deployment
+        run: |
+          echo "📊 DEPLOYING ANALYTICS SERVICE TO PRODUCTION"
+          echo "=========================================="
+          echo "Release Tag: ${{ github.ref_name }}"
+          echo "Services: Analytics"
+          echo "Environment: production"
+          echo "Timestamp: $(date)"
+          echo "=========================================="
+          echo "✅ Analytics service deployment completed successfully!"
 
   # Notify deployment completion
   notify-deployment:
-    needs: [check-api-changes, deploy-api]
+    needs: [deploy-main-service, deploy-analytics-service]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -73,6 +56,10 @@ jobs:
           echo "=========================="
           echo "Release: ${{ github.ref_name }}"
           echo "Status: ${{ job.status }}"
-          echo "Services: API + UI"
+          if [[ "${{ github.ref_name }}" == 2025.* ]]; then
+            echo "Services: API + UI"
+          elif [[ "${{ github.ref_name }}" == analytics-* ]]; then
+            echo "Services: Analytics"
+          fi
           echo "Environment: production"
           echo "=========================="

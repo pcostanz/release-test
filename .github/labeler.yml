@@ -42,6 +42,11 @@ documentation:
   - changed-files:
       - any-glob-to-any-file: "**/*.md"
 
+# Analytics
+analytics:
+  - changed-files:
+      - any-glob-to-any-file: "src/analytics/**"
+
 # Dependencies
 dependencies:
   - changed-files:

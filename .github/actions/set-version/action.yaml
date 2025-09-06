@@ -1,5 +1,10 @@
 name: "Set Version"
 description: "Sets a date-based version with increment for multiple releases per day"
+inputs:
+  service:
+    description: "Service name for service-specific versioning"
+    required: false
+    default: "main"
 outputs:
   version:
     description: "The date-based version (YYYY.MM.DD.N)"
@@ -12,19 +17,28 @@ runs:
       run: |
         # Get current date in YYYY.MM.DD format
         DATE=$(date +%Y.%m.%d)
+        SERVICE="${{ inputs.service }}"
 
-        # Get the latest release for today to determine increment
-        LATEST_TAG=$(git tag -l "$DATE.*" | sort -V | tail -1)
+        # Get the latest release for today for this service to determine increment
+        if [ "$SERVICE" = "main" ]; then
+          LATEST_TAG=$(git tag -l "$DATE.*" | grep -v "ui-" | grep -v "api-" | grep -v "analytics-" | sort -V | tail -1)
+        else
+          LATEST_TAG=$(git tag -l "$SERVICE-$DATE.*" | sort -V | tail -1)
+        fi
 
         if [ -z "$LATEST_TAG" ]; then
-          # No releases today, start with .1
+          # No releases today for this service, start with .1
           VERSION="$DATE.1"
         else
           # Extract the increment number and add 1
-          INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4)
+          if [ "$SERVICE" = "main" ]; then
+            INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4)
+          else
+            INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4)
+          fi
           NEW_INCREMENT=$((INCREMENT + 1))
           VERSION="$DATE.$NEW_INCREMENT"
         fi
 
         echo "version=$VERSION" >> $GITHUB_OUTPUT
-        echo "Set version to: $VERSION"
+        echo "Set version to: $VERSION for service: $SERVICE"
