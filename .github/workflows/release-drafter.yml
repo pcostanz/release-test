@@ -39,3 +39,4 @@ jobs:
           name-prefix: "Release"
           name-emoji: "🌟"
           tag-prefix: ""
+          github-token: ${{ secrets.GITHUB_TOKEN }}
