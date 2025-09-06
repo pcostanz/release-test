@@ -1,4 +1,4 @@
-name-template: "Release $RESOLVED_VERSION 🌟"
+name-template: "$RESOLVED_VERSION"
 tag-template: "$RESOLVED_VERSION"
 version-template: "$RESOLVED_VERSION"
 categories:
@@ -48,10 +48,10 @@ template: |
   ## Production Deployment
   - This release will automatically deploy **API + UI** to **production** (if changes detected)
   - Only API/frontend changes since the last release will trigger deployment
-  - Deployed with version tag: `$RESOLVED_VERSION`
+  - Deployed with version tag: `"$RESOLVED_VERSION"`
   - Stage environment already has these changes (deployed on merge to main)
   - Other services (pipeline, cronjobs, communications) remain manual deployment
 
   ## Release Information
-  - **Version**: `$RESOLVED_VERSION` (automatically set to git hash)
-  - **Commit**: $COMMIT_SHA
+  - **Version**: `"$RESOLVED_VERSION"` (date-based versioning)
+  - **Commit**: "$COMMIT_SHA"
