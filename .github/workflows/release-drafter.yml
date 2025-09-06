@@ -41,5 +41,6 @@ jobs:
           version: ${{ steps.set-version.outputs.version }}
           name: "Release ${{ steps.set-version.outputs.version }} 🌟"
           tag: "${{ steps.set-version.outputs.version }}"
+          header: "Commit: ${{ steps.set-version.outputs.commit-sha }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

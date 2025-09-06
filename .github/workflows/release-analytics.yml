@@ -37,5 +37,6 @@ jobs:
           version: ${{ steps.set-analytics-version.outputs.version }}
           name: "Analytics Release ${{ steps.set-analytics-version.outputs.version }} 📊"
           tag: "analytics-${{ steps.set-analytics-version.outputs.version }}"
+          header: "Commit: ${{ steps.set-analytics-version.outputs.commit-sha }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

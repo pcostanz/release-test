@@ -54,4 +54,3 @@ template: |
 
   ## Release Information
   - **Version**: `"$RESOLVED_VERSION"` (date-based versioning)
-  - **Commit**: "$COMMIT_SHA"
