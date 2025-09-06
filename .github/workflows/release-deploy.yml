@@ -3,8 +3,8 @@ name: "Release Deployment"
 on:
   push:
     tags:
-      - "api-ui-*" # Main service tags (API + UI)
-      - "analytics-*" # Analytics service tags
+      - "*/api-ui" # Main service tags (API + UI)
+      - "*/analytics" # Analytics service tags
 
 permissions:
   id-token: write
@@ -14,7 +14,7 @@ permissions:
 jobs:
   # Deploy main service (API + UI)
   deploy-main-service:
-    if: startsWith(github.ref_name, 'api-ui-')
+    if: endsWith(github.ref_name, '/api-ui')
     runs-on: ubuntu-latest
     steps:
       - name: Simulate Main Service Deployment
@@ -30,7 +30,7 @@ jobs:
 
   # Deploy analytics service
   deploy-analytics-service:
-    if: startsWith(github.ref_name, 'analytics-')
+    if: endsWith(github.ref_name, '/analytics')
     runs-on: ubuntu-latest
     steps:
       - name: Simulate Analytics Service Deployment
@@ -56,9 +56,9 @@ jobs:
           echo "=========================="
           echo "Release: ${{ github.ref_name }}"
           echo "Status: ${{ job.status }}"
-          if [[ "${{ github.ref_name }}" == api-ui-* ]]; then
+          if [[ "${{ github.ref_name }}" == */api-ui ]]; then
             echo "Services: API + UI"
-          elif [[ "${{ github.ref_name }}" == analytics-* ]]; then
+          elif [[ "${{ github.ref_name }}" == */analytics ]]; then
             echo "Services: Analytics"
           fi
           echo "Environment: production"
