@@ -1,0 +1,35 @@
+name-template: "$RESOLVED_VERSION"
+tag-template: "$RESOLVED_VERSION"
+version-template: "$RESOLVED_VERSION"
+categories:
+  - title: "📊 Analytics Features"
+    labels:
+      - "analytics"
+      - "tracking"
+      - "metrics"
+  - title: "🐛 Analytics Bug Fixes"
+    labels:
+      - "fix"
+      - "bugfix"
+      - "bug"
+  - title: "🧰 Analytics Maintenance"
+    labels:
+      - "chore"
+      - "dependencies"
+      - "maintenance"
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+change-title-escapes: '\<*_&'
+template: |
+  ## Analytics Changes
+
+  $CHANGES
+
+  ## Analytics Deployment
+  - This release will automatically deploy the **Analytics Service** to **production**
+  - Analytics changes detected in tracking and metrics services
+  - Deployed with version tag: `"$RESOLVED_VERSION"`
+  - Stage environment already has these changes (deployed on merge to main)
+
+  ## Release Information
+  - **Service**: Analytics/Tracking
+  - **Version**: `"$RESOLVED_VERSION"` (date-based versioning)

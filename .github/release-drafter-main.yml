@@ -38,11 +38,6 @@ categories:
     labels:
       - "api"
       - "backend"
-  - title: "📊 Analytics"
-    labels:
-      - "analytics"
-      - "tracking"
-      - "metrics"
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
 change-title-escapes: '\<*_&'
 template: |
@@ -50,12 +45,12 @@ template: |
 
   $CHANGES
 
-  ## Deployment
-  - This release will automatically deploy **${{ env.SERVICE_NAME }}** to **production** (if changes detected)
+  ## Production Deployment
+  - This release will automatically deploy **API + UI** to **production** (if changes detected)
+  - API and UI always deploy together as a unified service
   - Deployed with version tag: `"$RESOLVED_VERSION"`
   - Stage environment already has these changes (deployed on merge to main)
-  ${{ env.SERVICE_SPECIFIC_INFO }}
+  - Other services (analytics, notifications, etc.) remain independent deployment
 
   ## Release Information
-  - **Service**: ${{ env.SERVICE_NAME }}
   - **Version**: `"$RESOLVED_VERSION"` (date-based versioning)
