@@ -42,7 +42,7 @@ runs:
         config-name: ${{ inputs.config-name }}
         version: ${{ inputs.version }}
         name: "${{ inputs.name-prefix }} ${{ inputs.version }} ${{ inputs.name-emoji }}"
-        tag: "${{ inputs.version }}"
+        tag: "${{ inputs.version }}/${{ inputs.service }}"
         header: "Commit: ${{ inputs.commit-sha }}"
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
