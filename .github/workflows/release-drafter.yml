@@ -30,12 +30,12 @@ jobs:
           event-name: ${{ github.event_name }}
 
       - name: Run Release Drafter
-        uses: release-drafter/release-drafter@v6
+        uses: ./.github/actions/release-drafter
         with:
-          config-name: release-drafter.yml
+          service: "main"
+          config-name: "release-drafter-shared.yml"
           version: ${{ steps.set-version.outputs.version }}
-          name: "Release ${{ steps.set-version.outputs.version }} 🌟"
-          tag: "${{ steps.set-version.outputs.version }}"
-          header: "Commit: ${{ steps.set-version.outputs.commit-sha }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          commit-sha: ${{ steps.set-version.outputs.commit-sha }}
+          name-prefix: "Release"
+          name-emoji: "🌟"
+          tag-prefix: ""

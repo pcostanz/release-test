@@ -28,12 +28,12 @@ jobs:
           event-name: ${{ github.event_name }}
 
       - name: Run Analytics Release Drafter
-        uses: release-drafter/release-drafter@v6
+        uses: ./.github/actions/release-drafter
         with:
-          config-name: release-drafter-analytics.yml
+          service: "analytics"
+          config-name: "release-drafter-shared.yml"
           version: ${{ steps.set-analytics-version.outputs.version }}
-          name: "Analytics Release ${{ steps.set-analytics-version.outputs.version }} 📊"
-          tag: "analytics-${{ steps.set-analytics-version.outputs.version }}"
-          header: "Commit: ${{ steps.set-analytics-version.outputs.commit-sha }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          commit-sha: ${{ steps.set-analytics-version.outputs.commit-sha }}
+          name-prefix: "Analytics Release"
+          name-emoji: "📊"
+          tag-prefix: "analytics-"

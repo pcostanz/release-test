@@ -21,3 +21,18 @@ jobs:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: ".github/labeler.yml"
           sync-labels: true
+
+      - name: PR Codeowner Autolabel
+        uses: mdzhang/pr-codeowner-autolabel-action@v0.0.3
+        with:
+          file-path: .github/CODEOWNERS
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          labels-to-owners: |
+            {
+              "frontend": "@pcostanz/release-test-frontend",
+              "backend": "@pcostanz/release-test-backend", 
+              "analytics": "@pcostanz/release-test-analytics",
+              "infrastructure": "@pcostanz/release-test-devops",
+              "documentation": "@pcostanz/release-test-docs",
+              "maintainers": "@pcostanz/release-test-maintainers"
+            }

@@ -1,4 +1,4 @@
-name-template: "Release $RESOLVED_VERSION 🌟"
+name-template: "$RESOLVED_VERSION"
 tag-template: "$RESOLVED_VERSION"
 version-template: "$RESOLVED_VERSION"
 categories:
@@ -38,19 +38,17 @@ categories:
     labels:
       - "api"
       - "backend"
+  - title: "📊 Analytics"
+    labels:
+      - "analytics"
+      - "tracking"
+      - "metrics"
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+change-title-escapes: '\<*_&'
 template: |
   ## Changes
 
   $CHANGES
-
-  ## Production Deployment
-  - This release will automatically deploy **API + UI** to **production** (if changes detected)
-  - API and UI always deploy together as a unified service
-  - Deployed with version tag: `"$RESOLVED_VERSION"`
-  - Stage environment already has these changes (deployed on merge to main)
-  - Other services (analytics, notifications, etc.) remain independent deployment
 
   ## Release Information
   - **Version**: `"$RESOLVED_VERSION"` (date-based versioning)
