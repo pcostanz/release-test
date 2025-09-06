@@ -1,6 +1,6 @@
-name-template: "$RESOLVED_VERSION"
-tag-template: "$RESOLVED_VERSION"
-version-template: "$RESOLVED_VERSION"
+name-template: "$VERSION"
+tag-template: "$TAG"
+version-template: "$VERSION"
 categories:
   - title: "🚀 Features"
     labels:
@@ -48,9 +48,9 @@ template: |
   ## Production Deployment
   - This release will automatically deploy **API + UI** to **production** (if changes detected)
   - API and UI always deploy together as a unified service
-  - Deployed with version tag: `"$RESOLVED_VERSION"`
+  - Deployed with version tag: `"$TAG"`
   - Stage environment already has these changes (deployed on merge to main)
   - Other services (analytics, notifications, etc.) remain independent deployment
 
   ## Release Information
-  - **Version**: `"$RESOLVED_VERSION"` (semver-based versioning)
+  - **Version**: `"$VERSION"` (semver-based versioning)
