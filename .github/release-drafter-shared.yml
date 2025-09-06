@@ -50,5 +50,12 @@ template: |
 
   $CHANGES
 
+  ## Deployment
+  - This release will automatically deploy **${{ env.SERVICE_NAME }}** to **production** (if changes detected)
+  - Deployed with version tag: `"$RESOLVED_VERSION"`
+  - Stage environment already has these changes (deployed on merge to main)
+  ${{ env.SERVICE_SPECIFIC_INFO }}
+
   ## Release Information
+  - **Service**: ${{ env.SERVICE_NAME }}
   - **Version**: `"$RESOLVED_VERSION"` (date-based versioning)

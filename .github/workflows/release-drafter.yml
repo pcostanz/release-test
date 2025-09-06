@@ -40,3 +40,5 @@ jobs:
           name-emoji: "🌟"
           tag-prefix: ""
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          service-name: "API + UI"
+          service-specific-info: "- API and UI always deploy together as a unified service\n- Other services (analytics, notifications, etc.) remain independent deployment"
