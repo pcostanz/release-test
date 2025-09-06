@@ -1,0 +1,26 @@
+# Global owners
+* @pcostanz/release-test-maintainers
+
+# Frontend/UI components
+/src/frontend/ @pcostanz/release-test-frontend
+/components/ @pcostanz/release-test-frontend
+
+# Backend/API
+/src/api/ @pcostanz/release-test-backend
+/libs/backend/ @pcostanz/release-test-backend
+
+# Analytics
+/src/analytics/ @pcostanz/release-test-analytics
+
+# Infrastructure
+/.github/ @pcostanz/release-test-devops
+/docker-compose*.yml @pcostanz/release-test-devops
+/Makefile @pcostanz/release-test-devops
+
+# Documentation
+/docs/ @pcostanz/release-test-docs
+/README.md @pcostanz/release-test-docs
+/*.md @pcostanz/release-test-docs
+
+# Dependencies
+/package.json @pcostanz/release-test-maintainers

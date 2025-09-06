@@ -1,0 +1,31 @@
+name: "CODEOWNERS Labeler"
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: PR Codeowner Autolabel
+        uses: mdzhang/pr-codeowner-autolabel-action@v0.0.3
+        with:
+          file-path: .github/CODEOWNERS
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          labels-to-owners: |
+            {
+              "frontend": "@pcostanz/release-test-frontend",
+              "backend": "@pcostanz/release-test-backend", 
+              "analytics": "@pcostanz/release-test-analytics",
+              "infrastructure": "@pcostanz/release-test-devops",
+              "documentation": "@pcostanz/release-test-docs",
+              "maintainers": "@pcostanz/release-test-maintainers"
+            }
