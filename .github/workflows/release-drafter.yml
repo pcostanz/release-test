@@ -9,13 +9,6 @@ on:
       - "libs/backend/**"
       - "src/frontend/**"
       - "components/**"
-  pull_request:
-    types: [opened, reopened, synchronize]
-    paths:
-      - "src/api/**"
-      - "libs/backend/**"
-      - "src/frontend/**"
-      - "components/**"
 
 permissions:
   contents: write
