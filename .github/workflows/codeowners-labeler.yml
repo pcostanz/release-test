@@ -1,4 +1,4 @@
-name: "Pull Request Labeler"
+name: "CODEOWNERS Labeler"
 
 on:
   pull_request:
@@ -14,13 +14,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Run labeler
-        uses: actions/labeler@v5
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          configuration-path: ".github/labeler.yml"
-          sync-labels: true
 
       - name: PR Codeowner Autolabel
         uses: mdzhang/pr-codeowner-autolabel-action@v0.0.3
