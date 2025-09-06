@@ -57,9 +57,9 @@ jobs:
         uses: release-drafter/release-drafter@v6
         with:
           config-name: "release-draft-config-analytics.yml"
-          version: ${{ steps.set-analytics-version.outputs.version }}
-          name: "${{ steps.set-analytics-version.outputs.version }} 📊"
-          tag: "${{ steps.set-analytics-version.outputs.version }}"
+          version: "${{ steps.set-analytics-version.outputs.version }}/analytics"
+          name: "${{ steps.set-analytics-version.outputs.version }}/analytics"
+          tag: "${{ steps.set-analytics-version.outputs.version }}/analytics"
           header: "Commit: ${{ steps.set-analytics-version.outputs.commit-sha }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

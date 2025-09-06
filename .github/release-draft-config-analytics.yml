@@ -1,6 +1,6 @@
-name-template: "$RESOLVED_VERSION"
-tag-template: "$RESOLVED_VERSION"
-version-template: "$RESOLVED_VERSION"
+name-template: "$VERSION"
+tag-template: "$TAG"
+version-template: "$VERSION"
 categories:
   - title: "📊 Analytics Features"
     labels:
@@ -27,9 +27,9 @@ template: |
   ## Analytics Deployment
   - This release will automatically deploy the **Analytics Service** to **production**
   - Analytics changes detected in tracking and metrics services
-  - Deployed with version tag: `"$RESOLVED_VERSION"`
+  - Deployed with version tag: `"$TAG"`
   - Stage environment already has these changes (deployed on merge to main)
 
   ## Release Information
   - **Service**: Analytics/Tracking
-  - **Version**: `"$RESOLVED_VERSION"` (semver-based versioning)
+  - **Version**: `"$VERSION"` (semver-based versioning)
