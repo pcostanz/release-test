@@ -5,6 +5,10 @@ inputs:
     description: "Service name for service-specific versioning"
     required: false
     default: "main"
+  event-name:
+    description: "GitHub event name (push, pull_request, etc.)"
+    required: false
+    default: "push"
 outputs:
   version:
     description: "The date-based version (YYYY.MM.DD.N)"
@@ -23,7 +27,7 @@ runs:
         SERVICE="${{ inputs.service }}"
 
         # Get commit SHA based on event context
-        if [ "${{ github.event_name }}" = "pull_request" ]; then
+        if [ "${{ inputs.event-name }}" = "pull_request" ]; then
           COMMIT_SHA="${{ github.event.pull_request.head.sha }}"
         else
           COMMIT_SHA="${{ github.sha }}"

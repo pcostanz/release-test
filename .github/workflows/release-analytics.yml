@@ -25,6 +25,7 @@ jobs:
         uses: ./.github/actions/set-version
         with:
           service: "analytics"
+          event-name: ${{ github.event_name }}
 
       - name: Run Analytics Release Drafter
         uses: release-drafter/release-drafter@v6
