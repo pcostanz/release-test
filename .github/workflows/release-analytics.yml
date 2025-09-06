@@ -38,3 +38,5 @@ jobs:
           name-emoji: "📊"
           tag-prefix: "analytics-"
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          service-name: "Analytics/Tracking"
+          service-specific-info: "- Analytics changes detected in tracking and metrics services"
