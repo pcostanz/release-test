@@ -1,5 +1,5 @@
 name: "Set Version"
-description: "Sets a date-based version with increment for multiple releases per day"
+description: "Sets a semver-based version with patch increment for each service"
 inputs:
   service:
     description: "Service name for service-specific versioning"
@@ -7,7 +7,7 @@ inputs:
     default: "api-ui"
 outputs:
   version:
-    description: "The date-based version (YY.MM.DD.N/service)"
+    description: "The semver-based version (X.Y.Z)"
     value: ${{ steps.set-version.outputs.version }}
   commit-sha:
     description: "The commit SHA for this context"
@@ -18,30 +18,30 @@ runs:
     - shell: bash
       id: set-version
       run: |
-        # Get current date in YY.MM.DD format (removed 20 prefix)
-        DATE=$(date +%y.%m.%d)
         SERVICE="${{ inputs.service }}"
 
         # Get commit SHA (only for main branch pushes, no PR handling)
         COMMIT_SHA="${{ github.sha }}"
 
-        # Get the latest release for today (global increment, not service-specific)
-        # Look for any tag matching the date pattern: YY.MM.DD.N/service
-        LATEST_TAG=$(git tag -l "$DATE.*" | sort -V | tail -1 || echo "")
+        # Get the latest release for this service
+        # Look for tags matching the service pattern: X.Y.Z/service
+        LATEST_TAG=$(git tag -l "*$SERVICE" | sort -V | tail -1 || echo "")
 
         if [ -z "$LATEST_TAG" ]; then
-          # No releases today, start with .1
-          VERSION="$DATE.1/$SERVICE"
+          # No releases for this service yet, start with 1.0.0
+          VERSION="1.0.0"
         else
-          # Extract the increment number and add 1
-          # Format: YY.MM.DD.N/service -> extract N
-          INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4 | cut -d'/' -f1)
-          if [ -z "$INCREMENT" ]; then
-            VERSION="$DATE.1/$SERVICE"
-          else
-            NEW_INCREMENT=$((INCREMENT + 1))
-            VERSION="$DATE.$NEW_INCREMENT/$SERVICE"
-          fi
+          # Extract the version number (remove /service suffix)
+          VERSION_ONLY=$(echo "$LATEST_TAG" | sed "s|/$SERVICE||")
+          
+          # Parse semver components
+          MAJOR=$(echo "$VERSION_ONLY" | cut -d'.' -f1)
+          MINOR=$(echo "$VERSION_ONLY" | cut -d'.' -f2)
+          PATCH=$(echo "$VERSION_ONLY" | cut -d'.' -f3)
+          
+          # Increment patch version
+          NEW_PATCH=$((PATCH + 1))
+          VERSION="$MAJOR.$MINOR.$NEW_PATCH"
         fi
 
         echo "version=$VERSION" >> $GITHUB_OUTPUT
@@ -49,4 +49,4 @@ runs:
         echo "Set version to: $VERSION for service: $SERVICE"
         echo "Set commit SHA to: $COMMIT_SHA"
         echo "Latest tag found: $LATEST_TAG"
-        echo "Date: $DATE"
+        echo "Service: $SERVICE"
