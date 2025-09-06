@@ -54,17 +54,21 @@ jobs:
 
       - name: Run Analytics Release Drafter
         id: release-drafter
-        uses: ./.github/actions/release-drafter-analytics
+        uses: release-drafter/release-drafter@v6
         with:
+          config-name: "release-draft-config-analytics.yml"
           version: ${{ steps.set-analytics-version.outputs.version }}
-          commit-sha: ${{ steps.set-analytics-version.outputs.commit-sha }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: "${{ steps.set-analytics-version.outputs.version }} 📊"
+          tag: "${{ steps.set-analytics-version.outputs.version }}"
+          header: "Commit: ${{ steps.set-analytics-version.outputs.commit-sha }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Debug - Release Drafter Results
         run: |
           echo "🔍 DEBUG: Analytics Release Drafter Results"
           echo "========================================="
-          echo "Release ID: ${{ steps.release-drafter.outputs.release-id }}"
-          echo "Release Name: ${{ steps.release-drafter.outputs.release-name }}"
-          echo "Release Tag: ${{ steps.release-drafter.outputs.release-tag }}"
+          echo "Release ID: ${{ steps.release-drafter.outputs.id }}"
+          echo "Release Name: ${{ steps.release-drafter.outputs.name }}"
+          echo "Release Tag: ${{ steps.release-drafter.outputs.tag_name }}"
           echo "========================================="

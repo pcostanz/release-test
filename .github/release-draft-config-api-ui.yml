@@ -53,4 +53,4 @@ template: |
   - Other services (analytics, notifications, etc.) remain independent deployment
 
   ## Release Information
-  - **Version**: `"$RESOLVED_VERSION"` (date-based versioning)
+  - **Version**: `"$RESOLVED_VERSION"` (semver-based versioning)

@@ -55,11 +55,15 @@ jobs:
 
       - name: Run API/UI Release Drafter
         id: release-drafter
-        uses: ./.github/actions/release-drafter-api-ui
+        uses: release-drafter/release-drafter@v6
         with:
+          config-name: "release-draft-config-api-ui.yml"
           version: ${{ steps.set-version.outputs.version }}
-          commit-sha: ${{ steps.set-version.outputs.commit-sha }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          name: "${{ steps.set-version.outputs.version }} 🌟"
+          tag: "${{ steps.set-version.outputs.version }}"
+          header: "Commit: ${{ steps.set-version.outputs.commit-sha }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Debug - Release Drafter Results
         run: |
