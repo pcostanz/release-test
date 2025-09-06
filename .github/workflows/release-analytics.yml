@@ -24,13 +24,36 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug - Workflow Context
+        run: |
+          echo "🔍 DEBUG: Analytics Release Drafter Workflow"
+          echo "=========================================="
+          echo "Event: ${{ github.event_name }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "=========================================="
+
       - name: Set Analytics version
         id: set-analytics-version
         uses: ./.github/actions/set-version
         with:
           service: "analytics"
 
+      - name: Debug - Version Information
+        run: |
+          echo "🔍 DEBUG: Analytics Version Information"
+          echo "====================================="
+          echo "Version: ${{ steps.set-analytics-version.outputs.version }}"
+          echo "Commit SHA: ${{ steps.set-analytics-version.outputs.commit-sha }}"
+          echo "Service: analytics"
+          echo "Expected Tag: ${{ steps.set-analytics-version.outputs.version }}/analytics"
+          echo "====================================="
+
       - name: Run Analytics Release Drafter
+        id: release-drafter
         uses: ./.github/actions/release-drafter
         with:
           service: "analytics"
@@ -40,3 +63,12 @@ jobs:
           name-prefix: "Analytics Release"
           name-emoji: "📊"
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Debug - Release Drafter Results
+        run: |
+          echo "🔍 DEBUG: Analytics Release Drafter Results"
+          echo "========================================="
+          echo "Release ID: ${{ steps.release-drafter.outputs.release-id }}"
+          echo "Release Name: ${{ steps.release-drafter.outputs.release-name }}"
+          echo "Release Tag: ${{ steps.release-drafter.outputs.release-tag }}"
+          echo "========================================="

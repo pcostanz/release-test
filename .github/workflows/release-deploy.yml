@@ -1,10 +1,8 @@
 name: "Release Deployment"
 
 on:
-  push:
-    tags:
-      - "*/api-ui" # Main service tags (API + UI)
-      - "*/analytics" # Analytics service tags
+  release:
+    types: [published]
 
 permissions:
   id-token: write
@@ -12,16 +10,36 @@ permissions:
   actions: read
 
 jobs:
+  # Debug deployment context
+  debug-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug - Deployment Context
+        run: |
+          echo "🔍 DEBUG: Deployment Workflow Context"
+          echo "===================================="
+          echo "Event: ${{ github.event_name }}"
+          echo "Action: ${{ github.event.action }}"
+          echo "Release Tag: ${{ github.event.release.tag_name }}"
+          echo "Release Name: ${{ github.event.release.name }}"
+          echo "Release ID: ${{ github.event.release.id }}"
+          echo "Release Draft: ${{ github.event.release.draft }}"
+          echo "Release Prerelease: ${{ github.event.release.prerelease }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "===================================="
+
   # Deploy main service (API + UI)
   deploy-main-service:
-    if: endsWith(github.ref_name, '/api-ui')
+    if: endsWith(github.event.release.tag_name, '/api-ui')
     runs-on: ubuntu-latest
     steps:
       - name: Simulate Main Service Deployment
         run: |
           echo "🚀 DEPLOYING API + UI TO PRODUCTION"
           echo "=================================="
-          echo "Release Tag: ${{ github.ref_name }}"
+          echo "Release Tag: ${{ github.event.release.tag_name }}"
+          echo "Release Name: ${{ github.event.release.name }}"
           echo "Services: API + UI"
           echo "Environment: production"
           echo "Timestamp: $(date)"
@@ -30,14 +48,15 @@ jobs:
 
   # Deploy analytics service
   deploy-analytics-service:
-    if: endsWith(github.ref_name, '/analytics')
+    if: endsWith(github.event.release.tag_name, '/analytics')
     runs-on: ubuntu-latest
     steps:
       - name: Simulate Analytics Service Deployment
         run: |
           echo "📊 DEPLOYING ANALYTICS SERVICE TO PRODUCTION"
           echo "=========================================="
-          echo "Release Tag: ${{ github.ref_name }}"
+          echo "Release Tag: ${{ github.event.release.tag_name }}"
+          echo "Release Name: ${{ github.event.release.name }}"
           echo "Services: Analytics"
           echo "Environment: production"
           echo "Timestamp: $(date)"
@@ -46,7 +65,7 @@ jobs:
 
   # Notify deployment completion
   notify-deployment:
-    needs: [deploy-main-service, deploy-analytics-service]
+    needs: [debug-deployment, deploy-main-service, deploy-analytics-service]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -54,11 +73,12 @@ jobs:
         run: |
           echo "📢 DEPLOYMENT NOTIFICATION"
           echo "=========================="
-          echo "Release: ${{ github.ref_name }}"
+          echo "Release Tag: ${{ github.event.release.tag_name }}"
+          echo "Release Name: ${{ github.event.release.name }}"
           echo "Status: ${{ job.status }}"
-          if [[ "${{ github.ref_name }}" == */api-ui ]]; then
+          if [[ "${{ github.event.release.tag_name }}" == */api-ui ]]; then
             echo "Services: API + UI"
-          elif [[ "${{ github.ref_name }}" == */analytics ]]; then
+          elif [[ "${{ github.event.release.tag_name }}" == */analytics ]]; then
             echo "Services: Analytics"
           fi
           echo "Environment: production"
