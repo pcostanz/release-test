@@ -3,33 +3,48 @@
 
 # API/Backend changes
 api:
-  - src/api/**
-  - libs/backend/**
+  - changed-files:
+      - any-glob-to-any-file: "src/api/**"
+  - changed-files:
+      - any-glob-to-any-file: "libs/backend/**"
 
-# Frontend changes  
+# Frontend changes
 frontend:
-  - src/frontend/**
-  - components/**
+  - changed-files:
+      - any-glob-to-any-file: "src/frontend/**"
+  - changed-files:
+      - any-glob-to-any-file: "components/**"
 
 # Infrastructure/DevOps
 infrastructure:
-  - .github/**
-  - docker-compose*.yml
-  - Makefile
+  - changed-files:
+      - any-glob-to-any-file: ".github/**"
+  - changed-files:
+      - any-glob-to-any-file: "docker-compose*.yml"
+  - changed-files:
+      - any-glob-to-any-file: "Makefile"
 
 # Testing
 testing:
-  - tests/**
-  - **/*test*.js
-  - **/*test*.ts
+  - changed-files:
+      - any-glob-to-any-file: "tests/**"
+  - changed-files:
+      - any-glob-to-any-file: "**/*test*.js"
+  - changed-files:
+      - any-glob-to-any-file: "**/*test*.ts"
 
 # Documentation
 documentation:
-  - docs/**
-  - README.md
-  - **/*.md
+  - changed-files:
+      - any-glob-to-any-file: "docs/**"
+  - changed-files:
+      - any-glob-to-any-file: "README.md"
+  - changed-files:
+      - any-glob-to-any-file: "**/*.md"
 
 # Dependencies
 dependencies:
-  - package.json
-  - requirements*.txt
+  - changed-files:
+      - any-glob-to-any-file: "package.json"
+  - changed-files:
+      - any-glob-to-any-file: "requirements*.txt"
