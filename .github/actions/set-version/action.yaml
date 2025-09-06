@@ -35,9 +35,9 @@ runs:
 
         # Get the latest release for today for this service to determine increment
         if [ "$SERVICE" = "main" ]; then
-          LATEST_TAG=$(git tag -l "$DATE.*" | grep -v "ui-" | grep -v "api-" | grep -v "analytics-" | sort -V | tail -1)
+          LATEST_TAG=$(git tag -l "$DATE.*" | grep -v "ui-" | grep -v "api-" | grep -v "analytics-" | sort -V | tail -1 || echo "")
         else
-          LATEST_TAG=$(git tag -l "$SERVICE-$DATE.*" | sort -V | tail -1)
+          LATEST_TAG=$(git tag -l "$SERVICE-$DATE.*" | sort -V | tail -1 || echo "")
         fi
 
         if [ -z "$LATEST_TAG" ]; then
@@ -45,16 +45,19 @@ runs:
           VERSION="$DATE.1"
         else
           # Extract the increment number and add 1
-          if [ "$SERVICE" = "main" ]; then
-            INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4)
+          INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4)
+          if [ -z "$INCREMENT" ]; then
+            # If we can't extract increment, start with .1
+            VERSION="$DATE.1"
           else
-            INCREMENT=$(echo "$LATEST_TAG" | cut -d'.' -f4)
+            NEW_INCREMENT=$((INCREMENT + 1))
+            VERSION="$DATE.$NEW_INCREMENT"
           fi
-          NEW_INCREMENT=$((INCREMENT + 1))
-          VERSION="$DATE.$NEW_INCREMENT"
         fi
 
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "commit-sha=$COMMIT_SHA" >> $GITHUB_OUTPUT
         echo "Set version to: $VERSION for service: $SERVICE"
         echo "Set commit SHA to: $COMMIT_SHA"
+        echo "Latest tag found: $LATEST_TAG"
+        echo "Date: $DATE"
