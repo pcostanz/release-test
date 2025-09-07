@@ -42,6 +42,8 @@ jobs:
       - name: Set version
         id: set-version
         uses: ./.github/actions/set-version
+        with:
+          service: "app"
 
       - name: Debug - Version Information
         run: |
