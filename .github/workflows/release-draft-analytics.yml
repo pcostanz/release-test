@@ -49,7 +49,7 @@ jobs:
           echo "Version: ${{ steps.set-analytics-version.outputs.version }}"
           echo "Commit SHA: ${{ steps.set-analytics-version.outputs.commit-sha }}"
           echo "Service: analytics"
-          echo "Expected Tag: ${{ steps.set-analytics-version.outputs.version }}/analytics"
+          echo "Expected Tag: ${{ steps.set-analytics-version.outputs.version }}"
           echo "====================================="
 
       - name: Run Analytics Release Drafter
@@ -57,9 +57,9 @@ jobs:
         uses: release-drafter/release-drafter@v6
         with:
           config-name: "release-draft-config-analytics.yml"
-          version: "${{ steps.set-analytics-version.outputs.version }}/analytics"
-          name: "${{ steps.set-analytics-version.outputs.version }}/analytics"
-          tag: "${{ steps.set-analytics-version.outputs.version }}/analytics"
+          version: "${{ steps.set-analytics-version.outputs.version }}"
+          name: "${{ steps.set-analytics-version.outputs.version }}"
+          tag: "${{ steps.set-analytics-version.outputs.version }}"
           header: "Commit: ${{ steps.set-analytics-version.outputs.commit-sha }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
