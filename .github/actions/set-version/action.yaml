@@ -25,22 +25,20 @@ runs:
 
         # Get the latest release for this service
         # Look for tags matching the service pattern: service-number
-        LATEST_TAG=$(git tag -l "$SERVICE-*" | sort -V | tail -1 || echo "")
+        # Extract all version numbers for this service and find the highest
+        HIGHEST_VERSION=$(git tag -l "$SERVICE-*" | sed "s|$SERVICE-||" | sort -n | tail -1 || echo "")
 
-        if [ -z "$LATEST_TAG" ]; then
+        if [ -z "$HIGHEST_VERSION" ]; then
           # No releases for this service yet, start with 1
           VERSION="1"
         else
-          # Extract the version number (remove service- prefix)
-          VERSION_ONLY=$(echo "$LATEST_TAG" | sed "s|$SERVICE-||")
-          
-          # Increment version number
-          VERSION=$((VERSION_ONLY + 1))
+          # Increment the highest version number
+          VERSION=$((HIGHEST_VERSION + 1))
         fi
 
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "commit-sha=$COMMIT_SHA" >> $GITHUB_OUTPUT
         echo "Set version to: $VERSION for service: $SERVICE"
         echo "Set commit SHA to: $COMMIT_SHA"
-        echo "Latest tag found: $LATEST_TAG"
+        echo "Highest version found for $SERVICE: $HIGHEST_VERSION"
         echo "Service: $SERVICE"
