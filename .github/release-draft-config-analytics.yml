@@ -1,4 +1,4 @@
-name-template: "$VERSION"
+name-template: "Extension $VERSION"
 tag-template: "$TAG"
 version-template: "$VERSION"
 tag-prefix: "extension"
