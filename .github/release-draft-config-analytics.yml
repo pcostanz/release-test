@@ -1,6 +1,4 @@
 name-template: "Extension $VERSION"
-tag-template: "$TAG"
-version-template: "$VERSION"
 tag-prefix: "extension"
 categories:
   - title: "📊 Analytics Features"

@@ -58,6 +58,8 @@ jobs:
         with:
           config-name: "release-draft-config-analytics.yml"
           version: "${{ steps.set-analytics-version.outputs.version }}"
+          # name: "${{ steps.set-analytics-version.outputs.version }}"
+          # tag: "${{ steps.set-analytics-version.outputs.version }}"
           header: "Commit: ${{ steps.set-analytics-version.outputs.commit-sha }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
