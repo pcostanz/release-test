@@ -1,7 +1,7 @@
 name-template: "$VERSION"
 tag-template: "$TAG"
 version-template: "$VERSION"
-tag-prefix: "app.getsurface.ai"
+tag-prefix: "app"
 categories:
   - title: "🚀 Features"
     labels:

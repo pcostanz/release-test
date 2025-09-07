@@ -1,5 +1,5 @@
-name-template: "Extension $VERSION"
-tag-prefix: "extension"
+name-template: "Analytics $VERSION"
+tag-prefix: "analytics"
 categories:
   - title: "📊 Analytics Features"
     labels:
@@ -31,4 +31,4 @@ template: |
 
   ## Release Information
   - **Service**: Analytics/Tracking
-  - **Version**: `"$VERSION"` (semver-based versioning)
+  - **Version**: `$VERSION` (semver-based versioning)
