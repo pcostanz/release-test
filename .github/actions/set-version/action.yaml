@@ -1,5 +1,5 @@
 name: "Set Version"
-description: "Sets a semver-based version with patch increment for each service"
+description: "Sets an incremental version number for each service"
 inputs:
   service:
     description: "Service name for service-specific versioning"
@@ -7,7 +7,7 @@ inputs:
     default: "api-ui"
 outputs:
   version:
-    description: "The semver-based version (X.Y.Z)"
+    description: "The incremental version number"
     value: ${{ steps.set-version.outputs.version }}
   commit-sha:
     description: "The commit SHA for this context"
@@ -24,24 +24,18 @@ runs:
         COMMIT_SHA="${{ github.sha }}"
 
         # Get the latest release for this service
-        # Look for tags matching the service pattern: X.Y.Z/service
-        LATEST_TAG=$(git tag -l "*$SERVICE" | sort -V | tail -1 || echo "")
+        # Look for tags matching the service pattern: service-number
+        LATEST_TAG=$(git tag -l "$SERVICE-*" | sort -V | tail -1 || echo "")
 
         if [ -z "$LATEST_TAG" ]; then
-          # No releases for this service yet, start with 1.0.0
-          VERSION="1.0.0"
+          # No releases for this service yet, start with 1
+          VERSION="1"
         else
-          # Extract the version number (remove /service suffix)
-          VERSION_ONLY=$(echo "$LATEST_TAG" | sed "s|/$SERVICE||")
+          # Extract the version number (remove service- prefix)
+          VERSION_ONLY=$(echo "$LATEST_TAG" | sed "s|$SERVICE-||")
           
-          # Parse semver components
-          MAJOR=$(echo "$VERSION_ONLY" | cut -d'.' -f1)
-          MINOR=$(echo "$VERSION_ONLY" | cut -d'.' -f2)
-          PATCH=$(echo "$VERSION_ONLY" | cut -d'.' -f3)
-          
-          # Increment patch version
-          NEW_PATCH=$((PATCH + 1))
-          VERSION="$MAJOR.$MINOR.$NEW_PATCH"
+          # Increment version number
+          VERSION=$((VERSION_ONLY + 1))
         fi
 
         echo "version=$VERSION" >> $GITHUB_OUTPUT

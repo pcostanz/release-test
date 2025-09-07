@@ -1,4 +1,4 @@
-name-template: "App $VERSION"
+name-template: "App Release: $VERSION"
 tag-prefix: "app"
 tag-template: "$TAG"
 version-template: "$VERSION"
