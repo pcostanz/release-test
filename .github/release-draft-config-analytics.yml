@@ -1,5 +1,7 @@
 name-template: "Analytics $VERSION"
 tag-prefix: "analytics"
+tag-template: "$TAG"
+version-template: "$VERSION"
 categories:
   - title: "📊 Analytics Features"
     labels:
@@ -31,4 +33,4 @@ template: |
 
   ## Release Information
   - **Service**: Analytics/Tracking
-  - **Version**: `$VERSION` (semver-based versioning)
+  - **Version**: `$RESOLVED_VERSION` (semver-based versioning)
