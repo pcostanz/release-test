@@ -59,8 +59,8 @@ jobs:
         with:
           config-name: "release-draft-config-api-ui.yml"
           version: "${{ steps.set-version.outputs.version }}"
-          name: "${{ steps.set-version.outputs.version }}"
-          tag: "${{ steps.set-version.outputs.version }}"
+          name: "App ${{ steps.set-version.outputs.version }}"
+          tag: "app-${{ steps.set-version.outputs.version }}"
           header: "Commit: ${{ steps.set-version.outputs.commit-sha }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
