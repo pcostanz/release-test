@@ -83,7 +83,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Release Notes:*\n```${{ github.event.release.body }}```"
+                    "text": "*Release Notes:*\n```${{ toJson(github.event.release.body) }}```"
                   }
                 },
                 {
@@ -167,7 +167,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Release Notes:*\n```${{ github.event.release.body }}```"
+                    "text": "*Release Notes:*\n```${{ toJson(github.event.release.body) }}```"
                   }
                 },
                 {

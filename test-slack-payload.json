@@ -1,0 +1,49 @@
+{
+  "text": "🚀 Starting deployment of App Release 2",
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "🚀 App Release Deployment Started"
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Release:*\n<https://github.com/pcostanz/release-test/releases/tag/app-2|App Release 2>"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Tag:*\n`app-2`"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Commit:*\n<refs/heads/main|refs/heads/main>"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Deployed by:*\n@pcostanz"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Release Notes:*\n```\nCommit: cf6a8ecaad94c5b87c569d02c6e4723eaae90be5\n\n## Changes\n\n## 🏗️ Infrastructure\n\n- Emulate releases, change app @pcostanz (#60)\n\n## 🎨 Frontend\n\n- Emulate releases, change app @pcostanz (#60)\n- stuff @pcostanz (#59)\n- 2 service changes @pcostanz (#58)\n- 2 chainz @pcostanz (#57)\n\n## ⚙️ Backend\n\n- stuff @pcostanz (#59)\n\n## Release Information\n- **Version**: \"$VERSION\" (semver-based versioning)\n```"
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": "Deployment to production environment in progress..."
+        }
+      ]
+    }
+  ]
+}
