@@ -66,14 +66,14 @@ jobs:
           token: ${{ secrets.SLACK_DEPLOY_BOT_TOKEN }}
           payload: |
             {
-              "channel": "#releases-test",
-              "text": ":rocket_shipit_party: Starting deployment of App Release...",
+              "channel": "C1234567890",
+              "text": "Starting deployment of App Release...",
               "blocks": [
                 {
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "🚀 App Release Deployment Started"
+                    "text": ":rocket_shipit_party: App Release Deployment Started"
                   }
                 },
                 {
@@ -89,7 +89,7 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Commit:*\n<${{ github.event.release.target_commitish }}|${{ needs.extract-version.outputs.short-sha }}>"
+                      "text": "*Commit:*\n<${{ needs.extract-version.outputs.short-sha }}>"
                     },
                     {
                       "type": "mrkdwn",
@@ -156,7 +156,7 @@ jobs:
           token: ${{ secrets.SLACK_DEPLOY_BOT_TOKEN }}
           payload: |
             {
-              "channel": "#releases-test",
+              "channel": "C09E92UBPU3",
               "text": "${{ needs.deploy-to-production.result == 'success' && '✅' || '❌' }} App Release ${{ needs.extract-version.outputs.version }} deployment ${{ needs.deploy-to-production.result == 'success' && 'completed successfully' || 'failed' }}",
               "ts": "${{ needs.send-initial-notification.outputs.thread-ts }}",
               "blocks": [
