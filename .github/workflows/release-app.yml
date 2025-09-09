@@ -42,6 +42,13 @@ jobs:
     outputs:
       thread-ts: ${{ steps.initial-notification.outputs.ts }}
     steps:
+      - name: Escape release body for JSON
+        id: escape-body
+        run: |
+          # Escape the release body for JSON
+          ESCAPED_BODY=$(echo '${{ github.event.release.body }}' | sed 's/\\/\\\\/g; s/"/\\"/g; s/\r//g; s/$/\\n/g' | tr -d '\n' | sed 's/\\n$//')
+          echo "body=$ESCAPED_BODY" >> $GITHUB_OUTPUT
+
       - name: Send initial deployment notification
         id: initial-notification
         uses: slackapi/slack-github-action@v1.25.0
@@ -83,7 +90,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Release Notes:*\n```${{ toJson(github.event.release.body) }}```"
+                    "text": "*Release Notes:*\n```${{ steps.escape-body.outputs.body }}```"
                   }
                 },
                 {
@@ -126,6 +133,13 @@ jobs:
     needs: [extract-version, send-initial-notification, deploy-to-production]
     if: always() && needs.extract-version.outputs.version != ''
     steps:
+      - name: Escape release body for JSON
+        id: escape-body
+        run: |
+          # Escape the release body for JSON
+          ESCAPED_BODY=$(echo '${{ github.event.release.body }}' | sed 's/\\/\\\\/g; s/"/\\"/g; s/\r//g; s/$/\\n/g' | tr -d '\n' | sed 's/\\n$//')
+          echo "body=$ESCAPED_BODY" >> $GITHUB_OUTPUT
+
       - name: Update deployment notification
         uses: slackapi/slack-github-action@v1.25.0
         with:
@@ -167,7 +181,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Release Notes:*\n```${{ toJson(github.event.release.body) }}```"
+                    "text": "*Release Notes:*\n```${{ steps.escape-body.outputs.body }}```"
                   }
                 },
                 {
