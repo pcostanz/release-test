@@ -73,7 +73,7 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": ":rocket_shipit_party: App Release Deployment Started"
+                    "text": ":rocket_shipit_party: https://app.getsurface.ai App (API/UI) Release Deployment Started..."
                   }
                 },
                 {
@@ -89,12 +89,16 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Commit:*\n<${{ needs.extract-version.outputs.short-sha }}>"
+                      "text": "*Commit:*\n${{ needs.extract-version.outputs.short-sha }}"
                     },
                     {
                       "type": "mrkdwn",
                       "text": "*Deployed by:*\n@${{ github.actor }}"
-                    }
+                    },
+                                    {
+                      "type": "mrkdwn",
+                      "text": "*Status:*\n ⏳ In progress..."
+                    },
                   ]
                 },
                 {
@@ -181,7 +185,7 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "${{ needs.deploy-to-production.result == 'success' && '✅ App Release Deployment Successful' || '❌ App Release Deployment Failed' }}"
+                    "text": "${{ needs.deploy-to-production.result == 'success' && '✅ https://app.getsurface.ai App (API/UI) Release Deployment Success' || '❌ https://app.getsurface.ai App (API/UI) Release Deployment Failed' }}"
                   }
                 },
                 {
@@ -193,16 +197,20 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Environment:*\nProduction"
+                      "text": "*Tag:*\n`${{ github.ref_name }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit:*\n${{ needs.extract-version.outputs.short-sha }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Deployed by:*\n@${{ github.actor }}"
                     },
                     {
                       "type": "mrkdwn",
                       "text": "*Status:*\n${{ needs.deploy-to-production.result == 'success' && '✅ Successfully deployed' || '❌ Deployment failed' }}"
                     },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Deployed by:*\n@${{ github.actor }}"
-                    }
                   ]
                 },
                 {
