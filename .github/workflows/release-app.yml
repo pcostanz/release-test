@@ -63,6 +63,7 @@ jobs:
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: chat.postMessage
+          token: ${{ secrets.SLACK_DEPLOY_BOT_TOKEN }}
           payload: |
             {
               "channel": "#releases-test",
@@ -114,8 +115,6 @@ jobs:
                 }
               ]
             }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_DEPLOY_BOT_TOKEN }}
 
   deploy-to-production:
     runs-on: ubuntu-latest
@@ -154,6 +153,7 @@ jobs:
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: chat.update
+          token: ${{ secrets.SLACK_DEPLOY_BOT_TOKEN }}
           payload: |
             {
               "channel": "#releases-test",
@@ -206,5 +206,3 @@ jobs:
                 }
               ]
             }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_DEPLOY_BOT_TOKEN }}
