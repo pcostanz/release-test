@@ -73,7 +73,7 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": ":rocket_shipit_party: https://app.getsurface.ai App (API/UI) Release Deployment Started..."
+                    "text": ":rocket_shipit_party: <https://app.getsurface.ai|App> (API/UI) Release Deployment Started..."
                   }
                 },
                 {
@@ -185,7 +185,7 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "${{ needs.deploy-to-production.result == 'success' && '✅ https://app.getsurface.ai App (API/UI) Release Deployment Success' || '❌ https://app.getsurface.ai App (API/UI) Release Deployment Failed' }}"
+                    "text": "${{ needs.deploy-to-production.result == 'success' && '✅ <https://app.getsurface.ai|App> (API/UI) Release Deployment Success' || '❌ <https://app.getsurface.ai|App> (API/UI) Release Deployment Failed' }}"
                   }
                 },
                 {

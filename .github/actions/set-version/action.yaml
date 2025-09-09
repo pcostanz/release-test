@@ -24,16 +24,17 @@ runs:
         COMMIT_SHA="${{ github.sha }}"
 
         # Get the latest release for this service
-        # Look for tags matching the service pattern: service-number
+        # Look for tags matching the service pattern: service-00001, service-00002, etc.
         # Extract all version numbers for this service and find the highest
         HIGHEST_VERSION=$(git tag -l "$SERVICE-*" | sed "s|$SERVICE-||" | sort -n | tail -1 || echo "")
 
         if [ -z "$HIGHEST_VERSION" ]; then
-          # No releases for this service yet, start with 1
-          VERSION="1"
+          # No releases for this service yet, start with 00001
+          VERSION="00001"
         else
-          # Increment the highest version number
-          VERSION=$((HIGHEST_VERSION + 1))
+          # Increment the highest version number and pad with zeros
+          NEXT_VERSION=$((HIGHEST_VERSION + 1))
+          VERSION=$(printf "%05d" $NEXT_VERSION)
         fi
 
         echo "version=$VERSION" >> $GITHUB_OUTPUT
