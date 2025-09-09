@@ -46,7 +46,7 @@ jobs:
         id: initial-notification
         uses: slackapi/slack-github-action@v1.25.0
         with:
-          channel-id: "#releases"
+          channel-id: "#releases-test"
           payload: |
             {
               "text": "🚀 Starting deployment of App Release ${{ needs.extract-version.outputs.version }}",
@@ -129,7 +129,7 @@ jobs:
       - name: Update deployment notification
         uses: slackapi/slack-github-action@v1.25.0
         with:
-          channel-id: "#releases"
+          channel-id: "#releases-test"
           payload: |
             {
               "text": "${{ needs.deploy-to-production.result == 'success' && '✅' || '❌' }} App Release ${{ needs.extract-version.outputs.version }} deployment ${{ needs.deploy-to-production.result == 'success' && 'completed successfully' || 'failed' }}",
