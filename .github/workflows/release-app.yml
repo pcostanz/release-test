@@ -60,12 +60,12 @@ jobs:
 
       - name: Send initial deployment notification
         id: initial-notification
-        uses: slackapi/slack-github-action@v1.25.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
-          channel-id: "#releases-test"
           payload: |
             {
-              "text": "🚀 Starting deployment of App Release ${{ needs.extract-version.outputs.version }}",
+              "channel": "#releases-test",
+              "text": ":rocket_shipit_party: Starting deployment of App Release...",
               "blocks": [
                 {
                   "type": "header",
@@ -150,14 +150,14 @@ jobs:
           echo "body=$ESCAPED_BODY" >> $GITHUB_OUTPUT
 
       - name: Update deployment notification
-        uses: slackapi/slack-github-action@v1.25.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
-          channel-id: "#releases-test"
+          method: chat.update
           payload: |
             {
+              "channel": "#releases-test",
               "text": "${{ needs.deploy-to-production.result == 'success' && '✅' || '❌' }} App Release ${{ needs.extract-version.outputs.version }} deployment ${{ needs.deploy-to-production.result == 'success' && 'completed successfully' || 'failed' }}",
               "ts": "${{ needs.send-initial-notification.outputs.thread-ts }}",
-              "update": true,
               "blocks": [
                 {
                   "type": "header",
