@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.extract-version.outputs.version }}
+      short-sha: ${{ steps.extract-short-sha.outputs.short-sha }}
     steps:
       - name: Check if this is an app release
         id: check-app-release
@@ -34,6 +35,14 @@ jobs:
           VERSION=${GITHUB_REF#refs/tags/app-}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Extracted version: $VERSION"
+
+      - name: Extract short SHA
+        id: extract-short-sha
+        run: |
+          # Extract first 7 characters of the commit SHA
+          SHORT_SHA=${GITHUB_SHA:0:7}
+          echo "short-sha=$SHORT_SHA" >> $GITHUB_OUTPUT
+          echo "Extracted short SHA: $SHORT_SHA"
 
   send-initial-notification:
     runs-on: ubuntu-latest
@@ -78,7 +87,7 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Commit:*\n<${{ github.event.release.target_commitish }}|${{ github.event.release.target_commitish }}>"
+                      "text": "*Commit:*\n<${{ github.event.release.target_commitish }}|${{ needs.extract-version.outputs.short-sha }}>"
                     },
                     {
                       "type": "mrkdwn",
@@ -148,6 +157,7 @@ jobs:
             {
               "text": "${{ needs.deploy-to-production.result == 'success' && '✅' || '❌' }} App Release ${{ needs.extract-version.outputs.version }} deployment ${{ needs.deploy-to-production.result == 'success' && 'completed successfully' || 'failed' }}",
               "ts": "${{ needs.send-initial-notification.outputs.thread-ts }}",
+              "update": true,
               "blocks": [
                 {
                   "type": "header",
